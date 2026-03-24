@@ -8,6 +8,8 @@ const els = {
   file: document.getElementById("log-file"),
   loadButton: document.getElementById("load-button"),
   search: document.getElementById("search-input"),
+  dateFromFilter: document.getElementById("date-from-filter"),
+  dateToFilter: document.getElementById("date-to-filter"),
   hostFilter: document.getElementById("host-filter"),
   statusFilter: document.getElementById("status-filter"),
   stats: document.getElementById("stats"),
@@ -31,6 +33,33 @@ const modalState = {
 
 function safeJson(value) {
   return JSON.stringify(value, null, 2);
+}
+
+function toChinaDateParts(value) {
+  if (!value) {
+    return { date: "", datetime: "-" };
+  }
+
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) {
+    return { date: "", datetime: value };
+  }
+
+  const formatter = new Intl.DateTimeFormat("zh-CN", {
+    timeZone: "Asia/Shanghai",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: false,
+  });
+
+  const parts = Object.fromEntries(formatter.formatToParts(date).map((item) => [item.type, item.value]));
+  const yyyyMmDd = `${parts.year}-${parts.month}-${parts.day}`;
+  const full = `${yyyyMmDd} ${parts.hour}:${parts.minute}:${parts.second}`;
+  return { date: yyyyMmDd, datetime: full };
 }
 
 function normalizeText(record) {
@@ -208,14 +237,19 @@ function renderFilters(records) {
 
 function applyFilters() {
   const search = els.search.value.trim().toLowerCase();
+  const dateFrom = els.dateFromFilter.value;
+  const dateTo = els.dateToFilter.value;
   const host = els.hostFilter.value;
   const status = els.statusFilter.value;
 
   state.filteredRecords = state.allRecords.filter((record) => {
+    const chinaDate = toChinaDateParts(record.captured_at).date;
     const textMatch = !search || normalizeText(record).includes(search);
+    const dateFromMatch = !dateFrom || (chinaDate && chinaDate >= dateFrom);
+    const dateToMatch = !dateTo || (chinaDate && chinaDate <= dateTo);
     const hostMatch = !host || record.request?.host === host;
     const statusMatch = !status || String(record.response?.status_code || "") === status;
-    return textMatch && hostMatch && statusMatch;
+    return textMatch && dateFromMatch && dateToMatch && hostMatch && statusMatch;
   });
 
   renderList(state.filteredRecords);
@@ -239,11 +273,12 @@ function renderList(records) {
     const parsedResponseCopy = node.querySelector(".parsed-response-copy");
 
     const statusCode = record.response?.status_code || 0;
+    const chinaTime = toChinaDateParts(record.captured_at);
     method.textContent = record.request?.method || "UNKNOWN";
     url.textContent = record.request?.pretty_url || record.raw_line || record.id;
     status.textContent = statusCode ? String(statusCode) : (record.error ? "ERROR" : "-");
     status.classList.add(getStatusTone(statusCode));
-    time.textContent = record.captured_at || "-";
+    time.textContent = chinaTime.datetime;
 
     const requestPayload = safeJson({
       request_line: `${record.request?.method || ""} ${record.request?.path || ""}`.trim(),
@@ -350,6 +385,8 @@ function bindEvents() {
   });
 
   els.search.addEventListener("input", applyFilters);
+  els.dateFromFilter.addEventListener("change", applyFilters);
+  els.dateToFilter.addEventListener("change", applyFilters);
   els.hostFilter.addEventListener("change", applyFilters);
   els.statusFilter.addEventListener("change", applyFilters);
   els.modalClose.addEventListener("click", closeParsedModal);

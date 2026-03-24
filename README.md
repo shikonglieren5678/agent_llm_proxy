@@ -103,12 +103,30 @@ python .\capture_llm_requests.py -- claude
 python .\capture_llm_requests.py --anthropic-base-url "https://open.bigmodel.cn/api/anthropic" --anthropic-api-key "你的 key" -- claude
 ```
 
+如果你需要保留 `claude` 的完整能力，例如：
+
+- `/skills`
+- `CLAUDE.md` 自动发现
+- 更完整的 slash 命令/插件能力
+
+现在这是默认行为，直接这样启动即可：
+
+```powershell
+python .\capture_llm_requests.py --anthropic-base-url "https://open.bigmodel.cn/api/anthropic" --anthropic-api-key "你的 key" -- claude
+```
+
 说明：
 
 - 启动器会自动把这两个变量传给 `claude`
-- 检测到第三方 Anthropic 网关时，会自动附加 `--bare`
-- 同时会设置 `CLAUDE_CODE_SIMPLE=1` 和 `CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1`
-- 这样可以尽量避免继续走 Claude 官网 OAuth / 非必要官方流量
+- 检测到第三方 Anthropic 网关时，默认保留完整模式，因此 `/skills`、`CLAUDE.md` 自动发现等能力可正常使用
+- 默认仍会设置 `CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1`
+- 如果你只想要更精简的抓取模式，可以显式加 `--claude-bare-mode`
+
+精简模式示例：
+
+```powershell
+python .\capture_llm_requests.py --claude-bare-mode --anthropic-base-url "https://open.bigmodel.cn/api/anthropic" --anthropic-api-key "你的 key" -- claude
+```
 
 ### 3. 包装 Python 脚本
 

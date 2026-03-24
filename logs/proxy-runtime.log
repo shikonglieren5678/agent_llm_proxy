@@ -24,3 +24,261 @@
 [16:37:31.481][127.0.0.1:59197] server disconnect registry.npmjs.org:443 (104.16.9.34:443)
 127.0.0.1:59199: GET https://registry.npmjs.org/@z_ai%2fmcp-server
               << 304 Not Modified 0b
+[16:37:34.830][127.0.0.1:59196] client disconnect
+[16:37:34.831][127.0.0.1:59196] server disconnect open.bigmodel.cn:443 (60.205.172.105:443)
+[16:47:31.444][127.0.0.1:59198] Closing connection due to inactivity: Client(127.0.0.1:59198, state=open, tls)
+[16:47:31.445][127.0.0.1:59198] client disconnect
+[16:47:31.446][127.0.0.1:59198] server disconnect registry.npmjs.org:443 (104.16.9.34:443)
+[16:47:31.522][127.0.0.1:59199] Closing connection due to inactivity: Client(127.0.0.1:59199, state=open, tls)
+[16:47:31.522][127.0.0.1:59199] client disconnect
+[16:47:31.523][127.0.0.1:59199] server disconnect registry.npmjs.org:443 (104.16.9.34:443)
+[17:07:28.679][127.0.0.1:54345] client connect
+[17:07:30.919][127.0.0.1:54345] server connect registry.npmjs.org:443 (104.16.1.34:443)
+127.0.0.1:54345: GET https://registry.npmjs.org/@anthropic-ai%2fclaude-code
+              << 304 Not Modified 0b
+[17:07:31.711][127.0.0.1:54345] client disconnect
+[17:07:31.712][127.0.0.1:54345] server disconnect registry.npmjs.org:443 (104.16.1.34:443)
+[17:30:17.913][127.0.0.1:52165] client connect
+[17:30:17.913][127.0.0.1:52166] client connect
+[17:30:19.958][127.0.0.1:52166] server connect open.bigmodel.cn:443 (60.205.172.105:443)
+[17:30:19.959][127.0.0.1:52165] server connect open.bigmodel.cn:443 (60.205.172.105:443)
+127.0.0.1:52165: POST https://open.bigmodel.cn/api/anthropic/v1/messages?beta…
+              << 200 OK 20.2k
+127.0.0.1:52166: POST https://open.bigmodel.cn/api/anthropic/v1/messages?beta…
+              << 200 OK 39.4k
+[17:30:37.426][127.0.0.1:52166] client disconnect
+[17:30:37.427][127.0.0.1:52166] server disconnect open.bigmodel.cn:443 (60.205.172.105:443)
+127.0.0.1:52165: POST https://open.bigmodel.cn/api/anthropic/v1/messages?beta…
+              << 200 OK 21.5k
+[17:30:43.216][127.0.0.1:52165] client disconnect
+[17:30:43.216][127.0.0.1:52165] server disconnect open.bigmodel.cn:443 (60.205.172.105:443)
+[17:37:28.579][127.0.0.1:60308] client connect
+[17:37:30.830][127.0.0.1:60308] server connect registry.npmjs.org:443 (104.16.1.34:443)
+127.0.0.1:60308: GET https://registry.npmjs.org/@anthropic-ai%2fclaude-code
+              << 304 Not Modified 0b
+[17:37:31.640][127.0.0.1:60308] client disconnect
+[17:37:31.640][127.0.0.1:60308] server disconnect registry.npmjs.org:443 (104.16.1.34:443)
+[17:49:54.680][127.0.0.1:57784] client connect
+[17:49:56.928][127.0.0.1:57784] server connect registry.npmjs.org:443 (104.16.4.34:443)
+127.0.0.1:57784: GET https://registry.npmjs.org/@anthropic-ai%2fclaude-code
+              << 304 Not Modified 0b
+[17:49:57.624][127.0.0.1:57784] client disconnect
+[17:49:57.624][127.0.0.1:57784] server disconnect registry.npmjs.org:443 (104.16.4.34:443)
+[18:02:45.740][127.0.0.1:51072] client connect
+[18:02:45.741][127.0.0.1:51073] client connect
+[18:02:47.784][127.0.0.1:51073] server connect open.bigmodel.cn:443 (60.205.172.105:443)
+[18:02:47.784][127.0.0.1:51072] server connect open.bigmodel.cn:443 (60.205.172.105:443)
+127.0.0.1:51072: POST https://open.bigmodel.cn/api/anthropic/v1/messages?beta…
+              << 200 OK 2.6k
+127.0.0.1:51073: POST https://open.bigmodel.cn/api/anthropic/v1/messages?beta…
+              << 200 OK 6.1k
+[18:02:55.699][127.0.0.1:51073] client disconnect
+[18:02:55.699][127.0.0.1:51073] server disconnect open.bigmodel.cn:443 (60.205.172.105:443)
+127.0.0.1:51072: POST https://open.bigmodel.cn/api/anthropic/v1/messages?beta…
+              << 200 OK 54.9k
+127.0.0.1:51072: POST https://open.bigmodel.cn/api/anthropic/v1/messages?beta…
+              << 200 OK 31.4k
+[18:03:20.332][127.0.0.1:51072] client disconnect
+[18:03:20.332][127.0.0.1:51072] server disconnect open.bigmodel.cn:443 (60.205.172.105:443)
+[18:11:31.494][127.0.0.1:53533] client connect
+[18:11:33.756][127.0.0.1:53533] server connect registry.npmjs.org:443 (104.16.6.34:443)
+127.0.0.1:53533: GET https://registry.npmjs.org/@anthropic-ai%2fclaude-code
+              << 304 Not Modified 0b
+[18:11:34.469][127.0.0.1:53533] client disconnect
+[18:11:34.469][127.0.0.1:53533] server disconnect registry.npmjs.org:443 (104.16.6.34:443)
+[18:11:45.026][127.0.0.1:51871] client connect
+[18:11:47.076][127.0.0.1:51871] server connect open.bigmodel.cn:443 (60.205.172.105:443)
+127.0.0.1:51871: POST https://open.bigmodel.cn/api/anthropic/v1/messages?beta…
+              << 200 OK 2.8k
+[18:11:51.847][127.0.0.1:51871] client disconnect
+[18:11:51.847][127.0.0.1:51871] server disconnect open.bigmodel.cn:443 (60.205.172.105:443)
+[18:12:49.063][127.0.0.1:52096] client connect
+[18:12:49.297][127.0.0.1:52096] server connect registry.npmjs.org:443 (104.16.6.34:443)
+127.0.0.1:52096: GET https://registry.npmjs.org/@anthropic-ai%2fclaude-code
+              << 304 Not Modified 0b
+[18:12:50.025][127.0.0.1:52096] client disconnect
+[18:12:50.026][127.0.0.1:52096] server disconnect registry.npmjs.org:443 (104.16.6.34:443)
+[18:12:51.783][127.0.0.1:61233] client connect
+[18:12:52.145][127.0.0.1:61234] client connect
+[18:12:52.366][127.0.0.1:61234] server connect registry.npmjs.org:443 (104.16.6.34:443)
+127.0.0.1:61234: GET https://registry.npmjs.org/@anthropic-ai%2fclaude-code
+              << 304 Not Modified 0b
+[18:12:53.064][127.0.0.1:61234] client disconnect
+[18:12:53.065][127.0.0.1:61234] server disconnect registry.npmjs.org:443 (104.16.6.34:443)
+[18:12:53.830][127.0.0.1:61233] server connect open.bigmodel.cn:443 (60.205.172.105:443)
+127.0.0.1:61233: POST https://open.bigmodel.cn/api/anthropic/v1/messages?beta…
+              << 200 OK 9.1k
+127.0.0.1:61233: POST https://open.bigmodel.cn/api/anthropic/v1/messages?beta…
+              << 200 OK 4.6k
+127.0.0.1:61233: POST https://open.bigmodel.cn/api/anthropic/v1/messages?beta…
+              << 200 OK 3.0k
+127.0.0.1:61233: POST https://open.bigmodel.cn/api/anthropic/v1/messages?beta…
+              << 200 OK 32.6k
+[18:13:39.376][127.0.0.1:62262] client connect
+[18:13:39.594][127.0.0.1:62262] server connect registry.npmjs.org:443 (104.16.6.34:443)
+127.0.0.1:62262: GET https://registry.npmjs.org/@anthropic-ai%2fclaude-code
+              << 304 Not Modified 0b
+[18:13:40.301][127.0.0.1:62262] client disconnect
+[18:13:40.302][127.0.0.1:62262] server disconnect registry.npmjs.org:443 (104.16.6.34:443)
+127.0.0.1:61233: POST https://open.bigmodel.cn/api/anthropic/v1/messages?beta…
+              << 200 OK 3.2k
+127.0.0.1:61233: POST https://open.bigmodel.cn/api/anthropic/v1/messages?beta…
+              << 200 OK 30.3k
+127.0.0.1:61233: POST https://open.bigmodel.cn/api/anthropic/v1/messages?beta…
+              << 200 OK 28.4k
+[18:14:01.044][127.0.0.1:61233] client disconnect
+[18:14:01.045][127.0.0.1:61233] server disconnect open.bigmodel.cn:443 (60.205.172.105:443)
+[18:14:19.224][127.0.0.1:55678] client connect
+[18:14:19.438][127.0.0.1:55678] server connect registry.npmjs.org:443 (104.16.6.34:443)
+127.0.0.1:55678: GET https://registry.npmjs.org/@anthropic-ai%2fclaude-code
+              << 304 Not Modified 0b
+[18:14:20.145][127.0.0.1:55678] client disconnect
+[18:14:20.146][127.0.0.1:55678] server disconnect registry.npmjs.org:443 (104.16.6.34:443)
+[18:16:54.365][127.0.0.1:50766] client connect
+[18:16:56.601][127.0.0.1:50766] server connect registry.npmjs.org:443 (104.16.0.34:443)
+127.0.0.1:50766: GET https://registry.npmjs.org/@anthropic-ai%2fclaude-code
+              << 304 Not Modified 0b
+[18:17:18.300] Loading script C:\Users\Administrator\Desktop\code\模型记录\llm_proxy_logger.py
+[18:17:18.301] LLM proxy logger output: C:\Users\Administrator\Desktop\code\模型记录\logs\records.jsonl
+[18:17:18.301] LLM proxy host filters: api.anthropic.com, api.bigmodel.cn, api.deepseek.com, api.mistral.ai, api.openai.com, chat.openai.com, claude.ai, dashscope.aliyuncs.com, generativelanguage.googleapis.com, open.bigmodel.cn, openrouter.ai
+[18:17:18.301] HTTP(S) proxy listening at 127.0.0.1:8080.
+[18:17:20.516][127.0.0.1:53978] client connect
+[18:17:20.877][127.0.0.1:53980] client connect
+[18:17:20.877][127.0.0.1:53981] client connect
+[18:17:20.878][127.0.0.1:53982] client connect
+[18:17:21.097][127.0.0.1:53982] server connect registry.npmjs.org:443 (104.16.0.34:443)
+[18:17:21.104][127.0.0.1:53981] server connect registry.npmjs.org:443 (104.16.0.34:443)
+[18:17:21.113][127.0.0.1:53980] server connect registry.npmjs.org:443 (104.16.0.34:443)
+127.0.0.1:53982: GET https://registry.npmjs.org/@anthropic-ai%2fclaude-code
+              << 304 Not Modified 0b
+127.0.0.1:53980: GET https://registry.npmjs.org/chrome-devtools-mcp
+              << 304 Not Modified 0b
+[18:17:21.827][127.0.0.1:53982] client disconnect
+[18:17:21.827][127.0.0.1:53982] server disconnect registry.npmjs.org:443 (104.16.0.34:443)
+127.0.0.1:53981: GET https://registry.npmjs.org/@z_ai%2fmcp-server
+              << 304 Not Modified 0b
+[18:17:22.553][127.0.0.1:53978] server connect open.bigmodel.cn:443 (60.205.172.105:443)
+127.0.0.1:53978: POST https://open.bigmodel.cn/api/mcp/web_search_prime/mcp
+              << 200 OK 214b
+127.0.0.1:53978: POST https://open.bigmodel.cn/api/mcp/web_search_prime/mcp
+              << 200 OK 0b
+127.0.0.1:53978: POST https://open.bigmodel.cn/api/mcp/web_search_prime/mcp
+              << 200 OK 1.4k
+[18:17:26.184][127.0.0.1:64552] client connect
+[18:17:26.403][127.0.0.1:64552] server connect registry.npmjs.org:443 (104.16.0.34:443)
+[18:17:26.942][127.0.0.1:53978] client disconnect
+[18:17:26.942][127.0.0.1:53978] server disconnect open.bigmodel.cn:443 (60.205.172.105:443)
+127.0.0.1:64552: GET https://registry.npmjs.org/@anthropic-ai%2fclaude-code
+              << 304 Not Modified 0b
+[18:17:44.767] Loading script C:\Users\Administrator\Desktop\code\模型记录\llm_proxy_logger.py
+[18:17:44.768] LLM proxy logger output: C:\Users\Administrator\Desktop\code\模型记录\logs\records.jsonl
+[18:17:44.768] LLM proxy host filters: api.anthropic.com, api.bigmodel.cn, api.deepseek.com, api.mistral.ai, api.openai.com, chat.openai.com, claude.ai, dashscope.aliyuncs.com, generativelanguage.googleapis.com, open.bigmodel.cn, openrouter.ai
+[18:17:44.769] HTTP(S) proxy listening at 127.0.0.1:8080.
+[18:17:46.997][127.0.0.1:52162] client connect
+[18:17:47.346][127.0.0.1:52163] client connect
+[18:17:47.362][127.0.0.1:52165] client connect
+[18:17:47.363][127.0.0.1:52166] client connect
+[18:17:47.564][127.0.0.1:52163] server connect registry.npmjs.org:443 (104.16.0.34:443)
+[18:17:47.568][127.0.0.1:52166] server connect registry.npmjs.org:443 (104.16.0.34:443)
+[18:17:47.598][127.0.0.1:52165] server connect registry.npmjs.org:443 (104.16.0.34:443)
+127.0.0.1:52163: GET https://registry.npmjs.org/@anthropic-ai%2fclaude-code
+              << 304 Not Modified 0b
+127.0.0.1:52166: GET https://registry.npmjs.org/@z_ai%2fmcp-server
+              << 304 Not Modified 0b
+[18:17:48.280][127.0.0.1:52163] client disconnect
+[18:17:48.280][127.0.0.1:52163] server disconnect registry.npmjs.org:443 (104.16.0.34:443)
+127.0.0.1:52165: GET https://registry.npmjs.org/chrome-devtools-mcp
+              << 304 Not Modified 0b
+[18:17:49.067][127.0.0.1:52162] server connect open.bigmodel.cn:443 (60.205.172.105:443)
+127.0.0.1:52162: POST https://open.bigmodel.cn/api/mcp/web_search_prime/mcp
+              << 200 OK 214b
+127.0.0.1:52162: POST https://open.bigmodel.cn/api/mcp/web_search_prime/mcp
+              << 200 OK 0b
+127.0.0.1:52162: POST https://open.bigmodel.cn/api/mcp/web_search_prime/mcp
+              << 200 OK 1.4k
+[18:17:52.799][127.0.0.1:52642] client connect
+[18:17:54.852][127.0.0.1:52642] server connect open.bigmodel.cn:443 (60.205.172.105:443)
+127.0.0.1:52162: POST https://open.bigmodel.cn/api/anthropic/v1/messages?beta…
+              << 200 OK 25.2k
+[18:18:00.199][127.0.0.1:52162] client disconnect
+[18:18:00.200][127.0.0.1:52162] server disconnect open.bigmodel.cn:443 (60.205.172.105:443)
+127.0.0.1:52642: POST https://open.bigmodel.cn/api/anthropic/v1/messages?beta…
+              << 200 OK 41.0k
+[18:18:13.609][127.0.0.1:61262] client connect
+[18:18:13.670][127.0.0.1:61262] server connect open.bigmodel.cn:443 (60.205.172.105:443)
+[18:18:17.610][127.0.0.1:52642] client disconnect
+[18:18:17.610][127.0.0.1:52642] server disconnect open.bigmodel.cn:443 (60.205.172.105:443)
+127.0.0.1:61262: POST https://open.bigmodel.cn/api/anthropic/v1/messages?beta…
+              << 200 OK 34.2k
+[18:30:24.343] Loading script C:\Users\Administrator\Desktop\code\模型记录\llm_proxy_logger.py
+[18:30:24.344] LLM proxy logger output: C:\Users\Administrator\Desktop\code\模型记录\logs\records.jsonl
+[18:30:24.344] LLM proxy host filters: api.anthropic.com, api.bigmodel.cn, api.deepseek.com, api.mistral.ai, api.openai.com, chat.openai.com, claude.ai, dashscope.aliyuncs.com, generativelanguage.googleapis.com, open.bigmodel.cn, openrouter.ai
+[18:30:24.344] HTTP(S) proxy listening at 127.0.0.1:8080.
+[18:30:26.627][127.0.0.1:64309] client connect
+[18:30:26.653][127.0.0.1:64309] server connect open.bigmodel.cn:443 (60.205.172.105:443)
+127.0.0.1:64309: POST https://open.bigmodel.cn/api/mcp/web_search_prime/mcp
+              << 200 OK 214b
+127.0.0.1:64309: POST https://open.bigmodel.cn/api/mcp/web_search_prime/mcp
+              << 200 OK 0b
+[18:30:27.002][127.0.0.1:51747] client connect
+[18:30:27.008][127.0.0.1:51748] client connect
+[18:30:27.008][127.0.0.1:51749] client connect
+127.0.0.1:64309: POST https://open.bigmodel.cn/api/mcp/web_search_prime/mcp
+              << 200 OK 1.4k
+[18:30:29.233][127.0.0.1:51747] server connect registry.npmjs.org:443 (104.16.9.34:443)
+[18:30:29.234][127.0.0.1:51749] server connect registry.npmjs.org:443 (104.16.9.34:443)
+[18:30:29.248][127.0.0.1:51748] server connect registry.npmjs.org:443 (104.16.9.34:443)
+127.0.0.1:51747: GET https://registry.npmjs.org/chrome-devtools-mcp
+              << 304 Not Modified 0b
+127.0.0.1:51749: GET https://registry.npmjs.org/@anthropic-ai%2fclaude-code
+              << 304 Not Modified 0b
+[18:30:29.935][127.0.0.1:51749] client disconnect
+[18:30:29.935][127.0.0.1:51749] server disconnect registry.npmjs.org:443 (104.16.9.34:443)
+127.0.0.1:51748: GET https://registry.npmjs.org/@z_ai%2fmcp-server
+              << 304 Not Modified 0b
+[18:30:31.071][127.0.0.1:64309] client disconnect
+[18:30:31.071][127.0.0.1:64309] server disconnect open.bigmodel.cn:443 (60.205.172.105:443)
+[18:30:42.870][127.0.0.1:58277] client connect
+[18:30:43.099][127.0.0.1:58277] server connect registry.npmjs.org:443 (104.16.9.34:443)
+127.0.0.1:58277: GET https://registry.npmjs.org/@anthropic-ai%2fclaude-code
+              << 304 Not Modified 0b
+[18:30:43.830][127.0.0.1:58277] client disconnect
+[18:30:43.830][127.0.0.1:58277] server disconnect registry.npmjs.org:443 (104.16.9.34:443)
+[18:30:57.518][127.0.0.1:55622] client connect
+[18:30:59.566][127.0.0.1:55622] server connect open.bigmodel.cn:443 (60.205.172.105:443)
+127.0.0.1:55622: POST https://open.bigmodel.cn/api/anthropic/v1/messages?beta…
+              << 200 OK 14.1k
+[18:31:15.528][127.0.0.1:55622] client disconnect
+[18:31:15.529][127.0.0.1:55622] server disconnect open.bigmodel.cn:443 (60.205.172.105:443)
+[18:31:19.455][127.0.0.1:61968] client connect
+[18:31:19.685][127.0.0.1:61968] server connect registry.npmjs.org:443 (104.16.9.34:443)
+127.0.0.1:61968: GET https://registry.npmjs.org/@anthropic-ai%2fclaude-code
+              << 304 Not Modified 0b
+[18:31:20.403][127.0.0.1:61968] client disconnect
+[18:31:20.403][127.0.0.1:61968] server disconnect registry.npmjs.org:443 (104.16.9.34:443)
+[18:31:20.599][127.0.0.1:51905] client connect
+[18:31:22.658][127.0.0.1:51905] server connect open.bigmodel.cn:443 (60.205.172.105:443)
+127.0.0.1:51905: POST https://open.bigmodel.cn/api/anthropic/v1/messages?beta…
+              << 200 OK 9.4k
+[18:31:41.343][127.0.0.1:51905] client disconnect
+[18:31:41.343][127.0.0.1:51905] server disconnect open.bigmodel.cn:443 (60.205.172.105:443)
+[18:33:29.477][127.0.0.1:51953] client connect
+[18:33:30.161][127.0.0.1:59449] client connect
+[18:33:31.726][127.0.0.1:51953] server connect registry.npmjs.org:443 (104.16.5.34:443)
+[18:33:32.221][127.0.0.1:59449] server connect open.bigmodel.cn:443 (60.205.172.105:443)
+127.0.0.1:51953: GET https://registry.npmjs.org/@anthropic-ai%2fclaude-code
+              << 304 Not Modified 0b
+[18:33:32.487][127.0.0.1:51953] client disconnect
+[18:33:32.487][127.0.0.1:51953] server disconnect registry.npmjs.org:443 (104.16.5.34:443)
+127.0.0.1:59449: POST https://open.bigmodel.cn/api/anthropic/v1/messages?beta…
+              << 200 OK 8.7k
+[18:33:44.448][127.0.0.1:65490] client connect
+[18:33:44.671][127.0.0.1:65490] server connect registry.npmjs.org:443 (104.16.5.34:443)
+127.0.0.1:65490: GET https://registry.npmjs.org/@anthropic-ai%2fclaude-code
+              << 304 Not Modified 0b
+[18:33:45.393][127.0.0.1:65490] client disconnect
+[18:33:45.394][127.0.0.1:65490] server disconnect registry.npmjs.org:443 (104.16.5.34:443)
+127.0.0.1:59449: POST https://open.bigmodel.cn/api/anthropic/v1/messages?beta…
+              << 200 OK 65.3k
+127.0.0.1:59449: POST https://open.bigmodel.cn/api/anthropic/v1/messages?beta…
+              << 200 OK 46.8k

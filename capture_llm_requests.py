@@ -67,6 +67,16 @@ def build_parser() -> argparse.ArgumentParser:
         help="在当前终端显示 mitmproxy 运行日志；默认静默并写入 logs/proxy-runtime.log",
     )
     parser.add_argument(
+        "--claude-full-mode",
+        action="store_true",
+        help="Claude 保留完整模式。该行为现已是默认值，保留此参数仅为兼容旧命令",
+    )
+    parser.add_argument(
+        "--claude-bare-mode",
+        action="store_true",
+        help="Claude 使用精简模式，自动附加 --bare / CLAUDE_CODE_SIMPLE；适合只关心接口抓取的场景",
+    )
+    parser.add_argument(
         "command",
         nargs=argparse.REMAINDER,
         help="要通过代理运行的命令。示例：python capture_llm_requests.py -- codex",
@@ -169,6 +179,8 @@ def main() -> int:
             print("提示: 已为 Node 类客户端临时关闭 TLS 证书校验，便于代理抓取 HTTPS 明文。")
         if provider_mode == "anthropic_compatible":
             print("提示: 已为 Claude 注入第三方 Anthropic 兼容网关配置，并禁用非必要官方流量。")
+        if provider_mode == "anthropic_compatible_full":
+            print("提示: 已为 Claude 注入第三方 Anthropic 兼容网关配置，并保留完整模式。")
         result = subprocess.run(command, env=child_env)
         return result.returncode
     finally:
@@ -236,12 +248,16 @@ def apply_provider_overrides(
         env["ANTHROPIC_API_KEY"] = args.anthropic_api_key
 
     env.setdefault("CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC", "1")
-    env.setdefault("CLAUDE_CODE_SIMPLE", "1")
 
-    if "--bare" not in command:
+    if args.claude_bare_mode:
+        env.setdefault("CLAUDE_CODE_SIMPLE", "1")
+    else:
+        env.pop("CLAUDE_CODE_SIMPLE", None)
+
+    if args.claude_bare_mode and "--bare" not in command:
         command = insert_global_option(command, "--bare")
 
-    return command, "anthropic_compatible"
+    return command, "anthropic_compatible" if args.claude_bare_mode else "anthropic_compatible_full"
 
 
 def insert_global_option(command: list[str], option: str) -> list[str]:
