@@ -1,0 +1,259 @@
+:root {
+  --bg: #f3efe6;
+  --paper: rgba(255, 252, 245, 0.9);
+  --ink: #182028;
+  --muted: #6b7280;
+  --line: rgba(24, 32, 40, 0.12);
+  --accent: #ca5b2e;
+  --accent-soft: rgba(202, 91, 46, 0.12);
+  --ok: #157347;
+  --warn: #b54708;
+  --bad: #b42318;
+  --shadow: 0 20px 40px rgba(24, 32, 40, 0.08);
+  --radius: 20px;
+  font-family: "Segoe UI", "Microsoft YaHei UI", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at top left, rgba(202, 91, 46, 0.18), transparent 28%),
+    radial-gradient(circle at bottom right, rgba(21, 115, 71, 0.14), transparent 26%),
+    var(--bg);
+}
+
+.page {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 320px 1fr;
+}
+
+.sidebar {
+  padding: 24px;
+  border-right: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(16px);
+}
+
+.content {
+  padding: 24px;
+}
+
+.brand h1,
+.hero h2,
+h3 {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+.eyebrow {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.card,
+.hero,
+.list-panel,
+.record {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.card {
+  padding: 16px;
+  margin-top: 16px;
+}
+
+.label {
+  display: block;
+  font-size: 12px;
+  color: var(--muted);
+  margin: 12px 0 8px;
+}
+
+input,
+select,
+button {
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  padding: 10px 12px;
+  font: inherit;
+}
+
+button {
+  background: var(--accent);
+  color: white;
+  border: none;
+  cursor: pointer;
+  margin-top: 12px;
+}
+
+.stats {
+  display: grid;
+  gap: 10px;
+}
+
+.stat {
+  padding: 12px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.stat .value {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.hero {
+  padding: 20px 24px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: end;
+}
+
+.hero-meta {
+  color: var(--muted);
+  text-align: right;
+}
+
+.list-panel {
+  margin-top: 18px;
+  padding: 16px;
+}
+
+.list-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.records {
+  display: grid;
+  gap: 12px;
+}
+
+.record {
+  overflow: hidden;
+}
+
+.record-head {
+  margin: 0;
+  border-radius: 0;
+  background: transparent;
+  color: inherit;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 18px;
+}
+
+.record-main,
+.record-side {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.method,
+.status {
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.method {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.status.ok {
+  background: rgba(21, 115, 71, 0.12);
+  color: var(--ok);
+}
+
+.status.warn {
+  background: rgba(181, 71, 8, 0.12);
+  color: var(--warn);
+}
+
+.status.bad {
+  background: rgba(180, 35, 24, 0.12);
+  color: var(--bad);
+}
+
+.url {
+  word-break: break-all;
+  text-align: left;
+}
+
+.time {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.record-body {
+  display: none;
+  border-top: 1px solid var(--line);
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.45);
+}
+
+.record.open .record-body {
+  display: block;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+pre {
+  margin: 8px 0 0;
+  padding: 14px;
+  border-radius: 14px;
+  background: #111827;
+  color: #f9fafb;
+  overflow: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+  min-height: 180px;
+}
+
+@media (max-width: 900px) {
+  .page {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    border-right: none;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero {
+    flex-direction: column;
+    align-items: start;
+  }
+
+  .hero-meta {
+    text-align: left;
+  }
+}

@@ -1,0 +1,26 @@
+[16:37:25.987] Loading script C:\Users\Administrator\Desktop\code\模型记录\llm_proxy_logger.py
+[16:37:25.988] LLM proxy logger output: C:\Users\Administrator\Desktop\code\模型记录\logs\records.jsonl
+[16:37:25.988] LLM proxy host filters: api.anthropic.com, api.bigmodel.cn, api.deepseek.com, api.mistral.ai, api.openai.com, chat.openai.com, claude.ai, dashscope.aliyuncs.com, generativelanguage.googleapis.com, open.bigmodel.cn, openrouter.ai
+[16:37:25.988] HTTP(S) proxy listening at 127.0.0.1:8080.
+[16:37:28.211][127.0.0.1:59196] client connect
+[16:37:28.565][127.0.0.1:59197] client connect
+[16:37:28.575][127.0.0.1:59198] client connect
+[16:37:28.576][127.0.0.1:59199] client connect
+[16:37:30.280][127.0.0.1:59196] server connect open.bigmodel.cn:443 (60.205.172.105:443)
+127.0.0.1:59196: POST https://open.bigmodel.cn/api/mcp/web_search_prime/mcp
+              << 200 OK 214b
+127.0.0.1:59196: POST https://open.bigmodel.cn/api/mcp/web_search_prime/mcp
+              << 200 OK 0b
+[16:37:30.788][127.0.0.1:59197] server connect registry.npmjs.org:443 (104.16.9.34:443)
+[16:37:30.788][127.0.0.1:59198] server connect registry.npmjs.org:443 (104.16.9.34:443)
+[16:37:30.795][127.0.0.1:59199] server connect registry.npmjs.org:443 (104.16.9.34:443)
+127.0.0.1:59196: POST https://open.bigmodel.cn/api/mcp/web_search_prime/mcp
+              << 200 OK 1.4k
+127.0.0.1:59198: GET https://registry.npmjs.org/chrome-devtools-mcp
+              << 304 Not Modified 0b
+127.0.0.1:59197: GET https://registry.npmjs.org/@anthropic-ai%2fclaude-code
+              << 304 Not Modified 0b
+[16:37:31.480][127.0.0.1:59197] client disconnect
+[16:37:31.481][127.0.0.1:59197] server disconnect registry.npmjs.org:443 (104.16.9.34:443)
+127.0.0.1:59199: GET https://registry.npmjs.org/@z_ai%2fmcp-server
+              << 304 Not Modified 0b

@@ -1,0 +1,2 @@
+mitmproxy>=11,<12
+bcrypt<4.1

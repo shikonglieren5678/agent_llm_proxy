@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LLM 请求日志查看器</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="page">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="eyebrow">Local Viewer</div>
+        <h1>LLM 请求日志</h1>
+      </div>
+
+      <div class="card">
+        <label class="label" for="log-file">日志路径</label>
+        <input id="log-file" type="text" value="logs/records.jsonl" />
+        <button id="load-button">读取日志</button>
+      </div>
+
+      <div class="card">
+        <label class="label" for="search-input">搜索</label>
+        <input id="search-input" type="text" placeholder="host / path / body / header" />
+
+        <label class="label" for="host-filter">Host</label>
+        <select id="host-filter">
+          <option value="">全部</option>
+        </select>
+
+        <label class="label" for="status-filter">状态码</label>
+        <select id="status-filter">
+          <option value="">全部</option>
+        </select>
+      </div>
+
+      <div class="card stats" id="stats"></div>
+    </aside>
+
+    <main class="content">
+      <section class="hero">
+        <div>
+          <div class="eyebrow">Request Timeline</div>
+          <h2 id="title">等待加载日志</h2>
+        </div>
+        <div class="hero-meta" id="summary-meta"></div>
+      </section>
+
+      <section class="list-panel">
+        <div class="list-header">
+          <strong>记录列表</strong>
+          <span id="result-count">0 条</span>
+        </div>
+        <div id="records" class="records"></div>
+      </section>
+    </main>
+  </div>
+
+  <template id="record-template">
+    <article class="record">
+      <button class="record-head" type="button">
+        <div class="record-main">
+          <span class="method"></span>
+          <span class="url"></span>
+        </div>
+        <div class="record-side">
+          <span class="status"></span>
+          <span class="time"></span>
+        </div>
+      </button>
+      <div class="record-body">
+        <div class="grid">
+          <div>
+            <h3>请求</h3>
+            <pre class="request-view"></pre>
+          </div>
+          <div>
+            <h3>响应</h3>
+            <pre class="response-view"></pre>
+          </div>
+        </div>
+      </div>
+    </article>
+  </template>
+
+  <script src="./app.js"></script>
+</body>
+</html>
