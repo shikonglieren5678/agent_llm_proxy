@@ -72,17 +72,53 @@
       <div class="record-body">
         <div class="grid">
           <div>
-            <h3>请求</h3>
+            <div class="panel-head">
+              <h3>请求</h3>
+              <button class="copy-button request-copy" type="button">复制请求</button>
+            </div>
             <pre class="request-view"></pre>
           </div>
           <div>
-            <h3>响应</h3>
+            <div class="panel-head">
+              <h3>响应</h3>
+              <div class="panel-actions">
+                <button class="copy-button response-copy" type="button">复制响应</button>
+                <button class="copy-button parsed-response-copy" type="button">复制解析响应内容</button>
+              </div>
+            </div>
             <pre class="response-view"></pre>
           </div>
         </div>
       </div>
     </article>
   </template>
+
+  <div class="modal hidden" id="parsed-modal">
+    <div class="modal-backdrop" data-close-modal="true"></div>
+    <div class="modal-dialog">
+      <div class="modal-head">
+        <div>
+          <div class="eyebrow">Parsed Response</div>
+          <h3>解析响应内容</h3>
+        </div>
+        <button class="copy-button modal-close" id="modal-close" type="button">关闭</button>
+      </div>
+      <div class="modal-section">
+        <div class="tag-head">
+          <span class="tag-label">think</span>
+          <button class="copy-button" id="copy-think" type="button">复制 think</button>
+        </div>
+        <pre id="parsed-think"></pre>
+      </div>
+      <div class="modal-section">
+        <div class="tag-head">
+          <span class="tag-label">result</span>
+          <button class="copy-button" id="copy-result" type="button">复制 result</button>
+        </div>
+        <pre id="parsed-result"></pre>
+      </div>
+    </div>
+  </div>
 
   <script src="./app.js"></script>
 </body>

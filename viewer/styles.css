@@ -222,6 +222,37 @@ button {
   gap: 16px;
 }
 
+.panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.panel-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: end;
+}
+
+.copy-button {
+  width: auto;
+  margin-top: 0;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: #fff;
+  color: var(--ink);
+  border: 1px solid var(--line);
+  box-shadow: none;
+}
+
+.copy-button.copied {
+  background: rgba(21, 115, 71, 0.12);
+  color: var(--ok);
+  border-color: rgba(21, 115, 71, 0.2);
+}
+
 pre {
   margin: 8px 0 0;
   padding: 14px;
@@ -232,6 +263,59 @@ pre {
   white-space: pre-wrap;
   word-break: break-word;
   min-height: 180px;
+}
+
+.modal.hidden {
+  display: none;
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+}
+
+.modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(17, 24, 39, 0.55);
+  backdrop-filter: blur(6px);
+}
+
+.modal-dialog {
+  position: relative;
+  width: min(960px, calc(100vw - 32px));
+  max-height: calc(100vh - 32px);
+  margin: 16px auto;
+  padding: 20px;
+  overflow: auto;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: rgba(255, 252, 245, 0.98);
+  box-shadow: var(--shadow);
+}
+
+.modal-head,
+.tag-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.modal-section + .modal-section {
+  margin-top: 18px;
+}
+
+.tag-label {
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: lowercase;
 }
 
 @media (max-width: 900px) {
@@ -255,5 +339,16 @@ pre {
 
   .hero-meta {
     text-align: left;
+  }
+
+  .panel-head,
+  .tag-head,
+  .modal-head {
+    align-items: start;
+    flex-direction: column;
+  }
+
+  .panel-actions {
+    justify-content: start;
   }
 }

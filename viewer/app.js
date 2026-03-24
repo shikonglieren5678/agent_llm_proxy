@@ -16,6 +16,17 @@ const els = {
   resultCount: document.getElementById("result-count"),
   records: document.getElementById("records"),
   template: document.getElementById("record-template"),
+  modal: document.getElementById("parsed-modal"),
+  modalClose: document.getElementById("modal-close"),
+  parsedThink: document.getElementById("parsed-think"),
+  parsedResult: document.getElementById("parsed-result"),
+  copyThink: document.getElementById("copy-think"),
+  copyResult: document.getElementById("copy-result"),
+};
+
+const modalState = {
+  think: "",
+  result: "",
 };
 
 function safeJson(value) {
@@ -53,6 +64,109 @@ function parseBody(recordPart) {
     body_base64: recordPart.body_base64,
     body_size: recordPart.body_size,
     body_truncated: recordPart.body_truncated,
+  };
+}
+
+function decodeBase64Utf8(base64) {
+  if (!base64) {
+    return "";
+  }
+  const binary = window.atob(base64);
+  const bytes = new Uint8Array(binary.length);
+  for (let index = 0; index < binary.length; index += 1) {
+    bytes[index] = binary.charCodeAt(index);
+  }
+  return new TextDecoder("utf-8").decode(bytes);
+}
+
+function parseJsonChunksFromText(text) {
+  const chunks = [];
+  const normalized = text.replace(/\r/g, "");
+  const sseMatches = normalized.matchAll(/(?:^|\n)data:(.*?)(?=\n(?:id:|event:|data:|\n|$))/gs);
+  for (const match of sseMatches) {
+    const payload = match[1].trim();
+    if (!payload || payload === "[DONE]") {
+      continue;
+    }
+    try {
+      chunks.push(JSON.parse(payload));
+    } catch {
+      // ignore non-json lines
+    }
+  }
+
+  if (chunks.length > 0) {
+    return chunks;
+  }
+
+  const lines = normalized
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean);
+
+  for (const line of lines) {
+    const payload = line.startsWith("data:") ? line.slice(5).trim() : line;
+    if (!payload || payload === "[DONE]") {
+      continue;
+    }
+    try {
+      chunks.push(JSON.parse(payload));
+    } catch {
+      // ignore non-json lines
+    }
+  }
+
+  return chunks;
+}
+
+function collectParsedDeltaContent(value, collector) {
+  if (!value) {
+    return;
+  }
+
+  if (Array.isArray(value)) {
+    for (const item of value) {
+      collectParsedDeltaContent(item, collector);
+    }
+    return;
+  }
+
+  if (typeof value !== "object") {
+    return;
+  }
+
+  const delta = value.delta;
+  if (delta && typeof delta === "object") {
+    if (delta.type === "thinking_delta" && typeof delta.thinking === "string") {
+      collector.think.push(delta.thinking);
+    }
+    if (delta.type === "text_delta" && typeof delta.text === "string") {
+      collector.result.push(delta.text);
+    }
+  }
+
+  for (const nested of Object.values(value)) {
+    if (nested && typeof nested === "object") {
+      collectParsedDeltaContent(nested, collector);
+    }
+  }
+}
+
+function parseResponseDeltaContent(record) {
+  const bodyText = record.response?.body_text;
+  const bodyBase64 = record.response?.body_base64;
+  const decodedText = bodyText || decodeBase64Utf8(bodyBase64);
+  const chunks = parseJsonChunksFromText(decodedText);
+  const collector = { think: [], result: [] };
+
+  for (const chunk of chunks) {
+    collectParsedDeltaContent(chunk, collector);
+  }
+
+  return {
+    raw: decodedText,
+    think: collector.think.join(""),
+    result: collector.result.join(""),
   };
 }
 
@@ -120,6 +234,9 @@ function renderList(records) {
     const time = node.querySelector(".time");
     const requestView = node.querySelector(".request-view");
     const responseView = node.querySelector(".response-view");
+    const requestCopy = node.querySelector(".request-copy");
+    const responseCopy = node.querySelector(".response-copy");
+    const parsedResponseCopy = node.querySelector(".parsed-response-copy");
 
     const statusCode = record.response?.status_code || 0;
     method.textContent = record.request?.method || "UNKNOWN";
@@ -128,26 +245,77 @@ function renderList(records) {
     status.classList.add(getStatusTone(statusCode));
     time.textContent = record.captured_at || "-";
 
-    requestView.textContent = safeJson({
+    const requestPayload = safeJson({
       request_line: `${record.request?.method || ""} ${record.request?.path || ""}`.trim(),
       headers: record.request?.headers || {},
       query: record.request?.query || [],
       body: parseBody(record.request),
     });
+    requestView.textContent = requestPayload;
 
-    responseView.textContent = safeJson({
+    const responsePayload = safeJson({
       status_code: record.response?.status_code,
       reason: record.response?.reason,
       headers: record.response?.headers || {},
       body: parseBody(record.response),
       error: record.error || null,
     });
+    responseView.textContent = responsePayload;
 
     button.addEventListener("click", () => {
       node.classList.toggle("open");
     });
+    requestCopy.addEventListener("click", (event) => {
+      event.stopPropagation();
+      copyText(requestPayload, requestCopy, "复制请求");
+    });
+    responseCopy.addEventListener("click", (event) => {
+      event.stopPropagation();
+      copyText(responsePayload, responseCopy, "复制响应");
+    });
+    parsedResponseCopy.addEventListener("click", async (event) => {
+      event.stopPropagation();
+      const parsed = parseResponseDeltaContent(record);
+      openParsedModal(parsed);
+      const combined = buildParsedCopyText(parsed);
+      await copyText(combined, parsedResponseCopy, "复制解析响应内容");
+    });
 
     els.records.appendChild(node);
+  }
+}
+
+function buildParsedCopyText(parsed) {
+  return [`<think>\n${parsed.think || ""}\n</think>`, `<result>\n${parsed.result || ""}\n</result>`].join("\n\n");
+}
+
+function openParsedModal(parsed) {
+  modalState.think = parsed.think || "";
+  modalState.result = parsed.result || "";
+  els.parsedThink.textContent = modalState.think || "(未解析到 thinking 内容)";
+  els.parsedResult.textContent = modalState.result || "(未解析到 text 内容)";
+  els.modal.classList.remove("hidden");
+}
+
+function closeParsedModal() {
+  els.modal.classList.add("hidden");
+}
+
+async function copyText(text, button, defaultLabel) {
+  try {
+    await navigator.clipboard.writeText(text);
+    const previous = button.textContent;
+    button.textContent = "已复制";
+    button.classList.add("copied");
+    window.setTimeout(() => {
+      button.textContent = defaultLabel || previous;
+      button.classList.remove("copied");
+    }, 1200);
+  } catch (error) {
+    button.textContent = "复制失败";
+    window.setTimeout(() => {
+      button.textContent = defaultLabel;
+    }, 1200);
   }
 }
 
@@ -184,6 +352,23 @@ function bindEvents() {
   els.search.addEventListener("input", applyFilters);
   els.hostFilter.addEventListener("change", applyFilters);
   els.statusFilter.addEventListener("change", applyFilters);
+  els.modalClose.addEventListener("click", closeParsedModal);
+  els.modal.addEventListener("click", (event) => {
+    if (event.target?.dataset?.closeModal === "true") {
+      closeParsedModal();
+    }
+  });
+  els.copyThink.addEventListener("click", () => {
+    copyText(modalState.think || "", els.copyThink, "复制 think");
+  });
+  els.copyResult.addEventListener("click", () => {
+    copyText(modalState.result || "", els.copyResult, "复制 result");
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && !els.modal.classList.contains("hidden")) {
+      closeParsedModal();
+    }
+  });
 }
 
 bindEvents();
