@@ -8,11 +8,81 @@ import sys
 import time
 from pathlib import Path
 from typing import NamedTuple
+from urllib.parse import urlparse
+
+
+DEFAULT_HOSTS = [
+    "api.openai.com",
+    "chat.openai.com",
+    "api.anthropic.com",
+    "claude.ai",
+    "open.bigmodel.cn",
+    "api.bigmodel.cn",
+    "openrouter.ai",
+    "generativelanguage.googleapis.com",
+    "api.mistral.ai",
+    "api.deepseek.com",
+    "dashscope.aliyuncs.com",
+]
 
 
 class ResolvedCommand(NamedTuple):
     command: list[str]
     resolved_entry: str
+
+
+def merge_host_filters(*host_sets: list[str]) -> list[str]:
+    merged: list[str] = []
+    seen: set[str] = set()
+    for host_set in host_sets:
+        for item in host_set:
+            host = item.strip().lower()
+            if not host or host in seen:
+                continue
+            seen.add(host)
+            merged.append(host)
+    return merged
+
+
+def parse_hosts_csv(raw_hosts: str) -> list[str]:
+    return [item.strip() for item in raw_hosts.split(",") if item.strip()]
+
+
+def extract_host_from_url(raw_url: str) -> str | None:
+    if not raw_url:
+        return None
+    candidate = raw_url.strip()
+    if not candidate:
+        return None
+    if "://" not in candidate:
+        candidate = f"https://{candidate}"
+    parsed = urlparse(candidate)
+    return parsed.hostname.lower() if parsed.hostname else None
+
+
+def collect_runtime_hosts(env: dict[str, str], args: argparse.Namespace) -> list[str]:
+    dynamic_hosts: list[str] = []
+    for value in (
+        args.anthropic_base_url,
+        env.get("OPENAI_BASE_URL", ""),
+        env.get("OPENAI_API_BASE", ""),
+        env.get("ANTHROPIC_BASE_URL", ""),
+    ):
+        host = extract_host_from_url(value)
+        if host:
+            dynamic_hosts.append(host)
+    return dynamic_hosts
+
+
+def choose_output_file(command: list[str]) -> str:
+    if not command:
+        return "records.jsonl"
+    executable_name = Path(command[0]).stem.lower()
+    if "codex" in executable_name:
+        return "codex-records.jsonl"
+    if "claude" in executable_name:
+        return "claude-records.jsonl"
+    return "records.jsonl"
 
 
 def build_cert_env() -> dict[str, str]:
@@ -101,8 +171,6 @@ def main() -> int:
     env = os.environ.copy()
     env["LLM_PROXY_OUTPUT_DIR"] = str(output_dir)
     env["LLM_PROXY_MAX_BODY_BYTES"] = str(args.max_body_bytes)
-    if args.hosts:
-        env["LLM_PROXY_HOSTS"] = args.hosts
     env.update(build_cert_env())
 
     listen_port = choose_listen_port(args.listen_host, args.listen_port)
@@ -122,6 +190,13 @@ def main() -> int:
 
     resolved = resolve_command(command)
     command = resolved.command
+    merged_hosts = merge_host_filters(
+        DEFAULT_HOSTS,
+        parse_hosts_csv(args.hosts),
+        collect_runtime_hosts(env, args),
+    )
+    env["LLM_PROXY_HOSTS"] = ",".join(merged_hosts)
+    env["LLM_PROXY_OUTPUT_FILE"] = choose_output_file(command)
 
     mitm_args = [
         mitmdump,
@@ -136,9 +211,11 @@ def main() -> int:
     ]
 
     print(f"启动代理: {proxy_url}")
-    print(f"日志文件: {output_dir / 'records.jsonl'}")
+    print(f"日志文件: {output_dir / env['LLM_PROXY_OUTPUT_FILE']}")
     if listen_port != args.listen_port:
         print(f"提示: 端口 {args.listen_port} 已占用，已自动切换到 {listen_port}")
+    if args.hosts:
+        print(f"附加白名单: {args.hosts}")
 
     proxy_stdout = None
     proxy_stderr = None

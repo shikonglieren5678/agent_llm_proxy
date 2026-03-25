@@ -6,6 +6,7 @@ const state = {
 
 const els = {
   file: document.getElementById("log-file"),
+  refreshFilesButton: document.getElementById("refresh-files-button"),
   loadButton: document.getElementById("load-button"),
   search: document.getElementById("search-input"),
   dateFromFilter: document.getElementById("date-from-filter"),
@@ -355,7 +356,7 @@ async function copyText(text, button, defaultLabel) {
 }
 
 async function loadLogs() {
-  const file = els.file.value.trim() || "logs/records.jsonl";
+  const file = els.file.value || "logs/records.jsonl";
   const response = await fetch(`/api/logs?file=${encodeURIComponent(file)}`);
   const payload = await response.json();
 
@@ -376,7 +377,41 @@ async function loadLogs() {
   applyFilters();
 }
 
+async function loadFileOptions() {
+  const response = await fetch("/api/files");
+  const payload = await response.json();
+
+  if (!response.ok) {
+    throw new Error(payload.error || "读取文件列表失败");
+  }
+
+  const files = payload.files || [];
+  const fallback = payload.default_file || "logs/records.jsonl";
+  const selected = els.file.value && files.includes(els.file.value) ? els.file.value : (files[0] || fallback);
+
+  els.file.innerHTML = files
+    .map((file) => `<option value="${file}">${file}</option>`)
+    .join("");
+
+  if (!files.includes(selected)) {
+    const option = document.createElement("option");
+    option.value = selected;
+    option.textContent = selected;
+    els.file.appendChild(option);
+  }
+
+  els.file.value = selected;
+}
+
 function bindEvents() {
+  els.refreshFilesButton.addEventListener("click", () => {
+    loadFileOptions()
+      .then(() => loadLogs())
+      .catch((error) => {
+        els.title.textContent = "读取失败";
+        els.summaryMeta.textContent = error.message;
+      });
+  });
   els.loadButton.addEventListener("click", () => {
     loadLogs().catch((error) => {
       els.title.textContent = "读取失败";
@@ -409,7 +444,9 @@ function bindEvents() {
 }
 
 bindEvents();
-loadLogs().catch((error) => {
-  els.title.textContent = "等待加载日志";
-  els.summaryMeta.textContent = error.message;
-});
+loadFileOptions()
+  .then(() => loadLogs())
+  .catch((error) => {
+    els.title.textContent = "等待加载日志";
+    els.summaryMeta.textContent = error.message;
+  });

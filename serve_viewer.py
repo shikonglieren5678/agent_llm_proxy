@@ -9,6 +9,7 @@ from urllib.parse import parse_qs, urlparse
 ROOT = Path(__file__).resolve().parent
 VIEWER_DIR = ROOT / "viewer"
 DEFAULT_LOG = ROOT / "logs" / "records.jsonl"
+LOGS_DIR = ROOT / "logs"
 
 
 def load_jsonl(path: Path) -> list[dict]:
@@ -34,18 +35,40 @@ def load_jsonl(path: Path) -> list[dict]:
     return records
 
 
+def list_log_files() -> list[str]:
+    if not LOGS_DIR.exists():
+        return []
+    files = [path.relative_to(ROOT).as_posix() for path in LOGS_DIR.glob("*.jsonl") if path.is_file()]
+    return sorted(files)
+
+
 class ViewerHandler(BaseHTTPRequestHandler):
     def do_GET(self) -> None:
         parsed = urlparse(self.path)
+        if parsed.path == "/api/files":
+            self.handle_files()
+            return
         if parsed.path == "/api/logs":
             self.handle_logs(parsed)
             return
         self.handle_static(parsed.path)
 
+    def handle_files(self) -> None:
+        files = list_log_files()
+        default_file = DEFAULT_LOG.relative_to(ROOT).as_posix()
+        self.send_json(
+            {
+                "files": files,
+                "default_file": default_file,
+            }
+        )
+
     def handle_logs(self, parsed) -> None:
         params = parse_qs(parsed.query)
         requested = params.get("file", [])
-        log_path = DEFAULT_LOG if not requested else (ROOT / requested[0]).resolve()
+        default_file = DEFAULT_LOG.relative_to(ROOT).as_posix()
+        selected = default_file if not requested else requested[0]
+        log_path = (ROOT / selected).resolve()
 
         try:
             log_path.relative_to(ROOT)
@@ -56,6 +79,7 @@ class ViewerHandler(BaseHTTPRequestHandler):
         records = load_jsonl(log_path)
         self.send_json(
             {
+                "selected_file": selected,
                 "file": str(log_path),
                 "count": len(records),
                 "records": records,

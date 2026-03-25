@@ -30,7 +30,11 @@
 - `capture_llm_requests.py`
   负责启动 `mitmproxy` 代理并通过代理运行目标命令
 - `llm_proxy_logger.py`
-  `mitmproxy` 插件，负责将请求/响应写入 `logs/records.jsonl`
+  `mitmproxy` 插件，负责将请求/响应写入不同的 JSONL 日志文件
+- `serve_viewer.py`
+  本地查看服务，支持枚举 `logs` 目录中的日志文件
+- `viewer/`
+  前端页面资源，支持切换不同日志文件查看
 - `requirements.txt`
   依赖列表
 
@@ -70,6 +74,21 @@ python .\capture_llm_requests.py --print-proxy-only
 ```powershell
 python .\capture_llm_requests.py -- codex
 ```
+
+如果 `codex` 实际走的是 OpenAI 兼容网关，并且 host 不在默认白名单里，可以显式追加：
+
+```powershell
+python .\capture_llm_requests.py --hosts "api.kxaug.xyz" -- codex
+```
+
+如果你是通过环境变量指定兼容网关，例如：
+
+```powershell
+$env:OPENAI_BASE_URL="https://api.kxaug.xyz/v1"
+python .\capture_llm_requests.py -- codex
+```
+
+启动器会自动从 `OPENAI_BASE_URL` / `OPENAI_API_BASE` 中提取 host 并加入抓取白名单。
 
 ### 2. 包装 `claude`
 
@@ -139,7 +158,9 @@ python .\capture_llm_requests.py -- python .\demo.py
 默认已内置常见域名：
 
 - `api.openai.com`
+- `chat.openai.com`
 - `api.anthropic.com`
+- `claude.ai`
 - `open.bigmodel.cn`
 - `api.bigmodel.cn`
 - `openrouter.ai`
@@ -154,13 +175,27 @@ python .\capture_llm_requests.py -- python .\demo.py
 python .\capture_llm_requests.py --hosts "api.openai.com,api.anthropic.com" -- codex
 ```
 
+说明：
+
+- `--hosts` 是“追加白名单”，不会覆盖默认内置域名
+- 会自动去重
+- `OPENAI_BASE_URL`、`OPENAI_API_BASE`、`ANTHROPIC_BASE_URL` 中的 host 也会自动加入白名单
+
 ## 输出格式
 
-记录文件默认在：
+记录文件默认会按工具区分：
 
 ```text
+.\logs\codex-records.jsonl
+.\logs\claude-records.jsonl
 .\logs\records.jsonl
 ```
+
+说明：
+
+- `codex` 默认写入 `codex-records.jsonl`
+- `claude` 默认写入 `claude-records.jsonl`
+- 其他命令默认写入 `records.jsonl`
 
 每一行是一条完整记录，包含：
 
@@ -198,13 +233,13 @@ python .\capture_llm_requests.py --hosts "api.openai.com,api.anthropic.com" -- c
 PowerShell 示例：
 
 ```powershell
-Get-Content .\logs\records.jsonl -Encoding UTF8
+Get-Content .\logs\codex-records.jsonl -Encoding UTF8
 ```
 
 筛选 OpenAI 请求：
 
 ```powershell
-Get-Content .\logs\records.jsonl -Encoding UTF8 | Select-String "api.openai.com"
+Get-Content .\logs\codex-records.jsonl -Encoding UTF8 | Select-String "api.openai.com"
 ```
 
 ## 前端可视化页面
@@ -228,17 +263,11 @@ http://127.0.0.1:8765
 
 页面特性：
 
-- 直接读取 `logs/records.jsonl`
+- 自动枚举 `logs` 目录下的 `.jsonl` 文件
+- 左上角可直接选择不同日志文件，例如 `logs/codex-records.jsonl`、`logs/claude-records.jsonl`
 - 按 `host`、`status_code`、关键字筛选
 - 展示请求头、请求体、响应头、响应体
 - 自动兼容 JSON 文本和 Base64 响应体
-
-如果你日志文件不在默认位置，可以在页面左上角直接修改路径，例如：
-
-```text
-logs/records.jsonl
-logs/claude.jsonl
-```
 
 ## 重要说明
 

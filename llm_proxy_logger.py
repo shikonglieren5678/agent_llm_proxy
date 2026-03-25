@@ -9,6 +9,21 @@ from typing import Any
 from mitmproxy import ctx, http
 
 
+DEFAULT_HOSTS = [
+    "api.openai.com",
+    "chat.openai.com",
+    "api.anthropic.com",
+    "claude.ai",
+    "open.bigmodel.cn",
+    "api.bigmodel.cn",
+    "openrouter.ai",
+    "generativelanguage.googleapis.com",
+    "api.mistral.ai",
+    "api.deepseek.com",
+    "dashscope.aliyuncs.com",
+]
+
+
 def _utc_now() -> str:
     return datetime.now(timezone.utc).isoformat()
 
@@ -37,26 +52,9 @@ class LLMProxyLogger:
     def __init__(self) -> None:
         self.output_dir = Path(os.getenv("LLM_PROXY_OUTPUT_DIR", "logs")).resolve()
         self.output_dir.mkdir(parents=True, exist_ok=True)
-        self.output_file = self.output_dir / "records.jsonl"
+        self.output_file = self.output_dir / os.getenv("LLM_PROXY_OUTPUT_FILE", "records.jsonl")
         self.max_body_bytes = int(os.getenv("LLM_PROXY_MAX_BODY_BYTES", str(1024 * 1024)))
-        raw_hosts = os.getenv(
-            "LLM_PROXY_HOSTS",
-            ",".join(
-                [
-                    "api.openai.com",
-                    "chat.openai.com",
-                    "api.anthropic.com",
-                    "claude.ai",
-                    "open.bigmodel.cn",
-                    "api.bigmodel.cn",
-                    "openrouter.ai",
-                    "generativelanguage.googleapis.com",
-                    "api.mistral.ai",
-                    "api.deepseek.com",
-                    "dashscope.aliyuncs.com",
-                ]
-            ),
-        )
+        raw_hosts = os.getenv("LLM_PROXY_HOSTS", ",".join(DEFAULT_HOSTS))
         self.host_filters = {item.strip().lower() for item in raw_hosts.split(",") if item.strip()}
         self._flows: dict[str, dict[str, Any]] = {}
 
